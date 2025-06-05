@@ -13,10 +13,6 @@ Un pipeline complet pour collecter, traiter et analyser les contenus liés au ha
 * [Choix techniques](#choix-techniques)
 * [Prérequis](#prérequis)
 * [Installation](#installation)
-* [Configuration](#configuration)
-* [Utilisation](#utilisation)
-* [Visualisation](#visualisation)
-* [Dépannage](#dépannage)
 
 ## Présentation générale
 
