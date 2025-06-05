@@ -145,7 +145,7 @@ Smart-Conseil/
 * Docker & Docker Compose
 * Clés API Twitter, Reddit, Telegram
 
-## Installation (via Docker - recommandé)
+## Installation 
 
 1. Cloner le dépôt :
 
