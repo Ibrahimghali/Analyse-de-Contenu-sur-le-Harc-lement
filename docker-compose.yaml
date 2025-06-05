@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # MongoDB pour stocker les données extraites
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+  # Elasticsearch pour l'indexation des données
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: elasticsearch
+    environment:
+      node.name: elasticsearch
+      cluster.name: es-docker-cluster
+      discovery.type: single-node
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+
+  # Kibana pour la visualisation des données
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+
+  # # Application Python (pipeline de traitement) - optionnelle
+  # python-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: python-app
+  #   volumes:
+  #     - ./src:/app/src
+  #     - ./test:/app/test
+  #   depends_on:
+  #     - mongodb
+  #     - elasticsearch
+  #   networks:
+  #     - app-network
+  #   command: tail -f /dev/null  # Garde le conteneur actif
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  elasticsearch_data:

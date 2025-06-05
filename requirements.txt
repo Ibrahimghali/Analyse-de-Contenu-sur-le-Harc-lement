@@ -1,0 +1,24 @@
+# Web scraping and API libraries
+praw  # Reddit API
+tweepy  # Twitter API
+telethon  # Telegram API
+
+# Data processing
+pandas
+numpy
+
+# Text preprocessing
+nltk
+spacy
+langdetect
+
+# Database connections
+pymongo
+elasticsearch
+
+# NLP
+transformers
+vaderSentiment
+
+# Testing
+pytest
