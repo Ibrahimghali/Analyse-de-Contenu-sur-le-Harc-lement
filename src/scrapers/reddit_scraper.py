@@ -96,23 +96,3 @@ class RedditScraper:
         self.client.close()
         logger.info("MongoDB connection closed")
         # Note: asyncpraw closes connections automatically
-
-if __name__ == "__main__":
-    import os
-    from dotenv import load_dotenv
-
-    load_dotenv()
-    client_id = os.getenv("REDDIT_CLIENT_ID")
-    client_secret = os.getenv("REDDIT_CLIENT_SECRET")
-    user_agent = os.getenv("REDDIT_USER_AGENT", "Mozilla/5.0")
-    mongo_uri = os.getenv("MONGO_URI", "mongodb://admin:password@localhost:27017/")
-
-    async def main():
-        scraper = RedditScraper(client_id, client_secret, user_agent, mongo_uri)
-        subreddits = ["bullying", "TrueOffMyChest", "WorkplaceBullying", "cyberbullying"]  # Replaced 'harassment'
-        results = await scraper.scrape_multiple_subreddits(subreddits, limit=50, sort_by="hot")
-        for subreddit, posts in results.items():
-            print(f"Scraped {len(posts)} posts from r/{subreddit}")
-        scraper.close()
-
-    asyncio.run(main())

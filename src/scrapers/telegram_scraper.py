@@ -113,23 +113,3 @@ class TelegramScraper:
             await self.client.disconnect()
         self.mongo_client.close()
         logger.info("Telegram and MongoDB connections closed")
-
-if __name__ == "__main__":
-    import os
-    from dotenv import load_dotenv
-
-    load_dotenv()
-    api_id = os.getenv("TELEGRAM_API_ID")
-    api_hash = os.getenv("TELEGRAM_API_HASH")
-    phone = os.getenv("TELEGRAM_PHONE")
-    mongo_uri = os.getenv("MONGO_URI", "mongodb://admin:password@localhost:27017/")
-
-    async def main():
-        scraper = TelegramScraper(api_id, api_hash, phone, mongo_uri)
-        groups = ["StopBullyingGroup", "AntiHarassmentChat", "CyberBullyingAwareness"]  # Replace with valid groups
-        results = await scraper.scrape_multiple_groups(groups, limit=50)
-        for group, messages in results.items():
-            print(f"Scraped {len(messages)} messages from {group}")
-        await scraper.close()
-
-    asyncio.run(main())

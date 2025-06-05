@@ -49,22 +49,34 @@ services:
     networks:
       - app-network
 
-  # # Application Python (pipeline de traitement) - optionnelle
-  # python-app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: python-app
-  #   volumes:
-  #     - ./src:/app/src
-  #     - ./test:/app/test
-  #   depends_on:
-  #     - mongodb
-  #     - elasticsearch
-  #   networks:
-  #     - app-network
-  #   command: tail -f /dev/null  # Garde le conteneur actif
-
+# Application Python (pipeline de traitement)
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-app
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/
+      - ES_HOST=elasticsearch
+      - ES_PORT=9200
+      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+      - REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
+      - REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
+      - REDDIT_USER_AGENT=HarassmentDataCollector/1.0
+      - TELEGRAM_API_ID=${TELEGRAM_API_ID}
+      - TELEGRAM_API_HASH=${TELEGRAM_API_HASH}
+      - TELEGRAM_PHONE=${TELEGRAM_PHONE}
+    volumes:
+      - ./src:/app/src
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge
