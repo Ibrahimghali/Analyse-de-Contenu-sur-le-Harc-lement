@@ -21,7 +21,7 @@ Ce projet propose une solution complète pour analyser le harcèlement sur diver
 ## Architecture du projet
 
 ```
-Smart-Conseil/
+Analyse-de-Contenu-sur-le-Harc-lement/
 ├── src/
 │   ├── main/
 │   │   ├── scrapers/           # Modules de collecte
