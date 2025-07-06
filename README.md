@@ -151,7 +151,7 @@ Analyse-de-Contenu-sur-le-Harc-lement/
 
 ```bash
 git clone https://github.com/votrenomdutilisateur/Analyse-de-Contenu-sur-le-Harc-lement.git
-cd Smart-Conseil
+cd Analyse-de-Contenu-sur-le-Harc-lement
 ```
 
 2. Créer un fichier `.env` avec vos identifiants API :
